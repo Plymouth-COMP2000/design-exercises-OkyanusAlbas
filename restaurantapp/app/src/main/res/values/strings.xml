@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Restaurant App</string>
+
+    <!-- Login -->
+    <string name="login_title">Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_go_register">Register</string>
+
+    <!-- Register -->
+    <string name="register_title">Register</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_create_account">Create Account</string>
+    <string name="btn_back_to_login">Back to Login</string>
+
+    <!-- Guest Home -->
+    <string name="guest_home_title">Welcome Guest</string>
+    <string name="btn_view_menu">View Menu</string>
+    <string name="btn_make_booking">Make Booking</string>
+
+    <!-- Menu -->
+    <string name="menu_title">Menu</string>
+    <string name="btn_back_home">Back</string>
+
+    <!-- Booking -->
+    <string name="booking_title">Book a Table</string>
+    <string name="btn_submit_booking">Submit Booking</string>
+
+    <!-- My Reservations -->
+    <string name="my_reservations_title">My Reservations</string>
+    <string name="btn_back_guest_home">Back</string>
+
+    <!-- Staff Dashboard -->
+    <string name="staff_dashboard_title">Staff Dashboard</string>
+    <string name="btn_menu_management">Menu Management</string>
+    <string name="btn_view_reservations">Reservations</string>
+
+    <!-- Menu Management -->
+    <string name="menu_management_title">Menu Management</string>
+    <string name="btn_add_item">Add Item</string>
+    <string name="btn_back_dashboard">Back</string>
+
+    <!-- Staff Reservations -->
+    <string name="staff_reservations_title">Staff Reservations</string>
+    <string name="btn_back_dashboard2">Back</string>
+
+    <!-- Notifications -->
+    <string name="notification_preferences_title">Notification Preferences</string>
+</resources>

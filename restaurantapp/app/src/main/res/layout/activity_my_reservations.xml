@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyReservationsActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_reservations_title"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnBackGuestHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_back_guest_home"
+        android:maxWidth="320dp" />
+</LinearLayout>

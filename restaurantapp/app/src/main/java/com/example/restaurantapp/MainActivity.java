@@ -1,0 +1,1 @@
+The directory C:\Users\albao\Documents\dev\Year2\COMP2000 is registered as a Git root, but no Git repositories were found there.
