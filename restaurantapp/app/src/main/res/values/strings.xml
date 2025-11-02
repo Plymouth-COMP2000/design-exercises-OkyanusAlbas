@@ -18,6 +18,7 @@
     <string name="guest_home_title">Welcome Guest</string>
     <string name="btn_view_menu">View Menu</string>
     <string name="btn_make_booking">Make Booking</string>
+    <string name="btn_my_reservations">My Reservations</string>
 
     <!-- Menu -->
     <string name="menu_title">Menu</string>

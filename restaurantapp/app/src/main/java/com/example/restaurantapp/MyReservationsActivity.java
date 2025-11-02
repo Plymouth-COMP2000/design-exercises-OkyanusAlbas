@@ -1,22 +1,30 @@
 package com.example.restaurantapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class LoginActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class MyReservationsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_my_reservations);
 
-        Button btnLogin = findViewById(R.id.btnLogin);
-        Button btnGoRegister = findViewById(R.id.btnGoRegister);
+        RecyclerView reservationsRecyclerView = findViewById(R.id.reservationsRecyclerView);
+        reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        btnLogin.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, GuestHomeActivity.class)));
-        btnGoRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        // Sample data for reservations
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        // reservations.add(new Reservation("2024-12-25", "19:00", 4));
+        // reservations.add(new Reservation("2025-01-10", "20:30", 2));
+
+        // You'll need to create a custom adapter for the RecyclerView
+        // ReservationsAdapter adapter = new ReservationsAdapter(reservations);
+        // reservationsRecyclerView.setAdapter(adapter);
     }
 }

@@ -35,6 +35,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_make_booking"
+            android:maxWidth="320dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnMyReservations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_my_reservations"
+            android:maxWidth="320dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnNotificationPreferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_preferences_title"
             android:maxWidth="320dp" />
     </LinearLayout>
 </ScrollView>
