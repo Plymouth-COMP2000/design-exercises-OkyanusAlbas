@@ -1,10 +1,29 @@
-# OS
+	# ===== OS =====
 .DS_Store
 Thumbs.db
 
-# Node / build
-node_modules/
-dist/
+# ===== Android Studio / IntelliJ =====
+.idea/
+*.iml
+*.ipr
+*.iws
 
-# Logs
+# ===== Gradle =====
+.gradle/
+build/
+*/build/
+
+# ===== Local config =====
+local.properties
+
+# ===== Logs =====
 *.log
+
+# ===== APK / AAB =====
+*.apk
+*.aab
+
+# ===== Videos / large media =====
+*.mp4
+*.mov
+*.avi
