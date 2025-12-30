@@ -1,120 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#FFFFFF"
+    android:padding="24dp"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".RegisterActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <!-- Centered main container -->
-        <LinearLayout
-            android:id="@+id/registerContainer"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center_horizontal">
+            android:text="Register"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="24dp" />
 
-            <!-- Inner box that limits width -->
-            <LinearLayout
-                android:id="@+id/contentBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:maxWidth="488dp"
-                tools:ignore="UselessParent">
+        <EditText
+            android:id="@+id/etUsernameRegister"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Username"
+            android:inputType="text"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
 
-                <!-- Title -->
-                <TextView
-                    android:id="@+id/tvRegisterTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/register_title"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    android:layout_marginTop="80dp"
-                    android:layout_marginBottom="40dp" />
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
 
-                <!-- Email -->
-                <EditText
-                    android:id="@+id/etEmailRegister"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="@string/hint_email"
-                    android:inputType="textEmailAddress"
-                    android:autofillHints="emailAddress"
-                    android:textColor="#000000"
-                    android:textColorHint="#757575"
-                    android:padding="12dp"
-                    android:backgroundTint="#000000"
-                    android:layout_marginBottom="16dp" />
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
 
-                <!-- Password -->
-                <EditText
-                    android:id="@+id/etPasswordRegister"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="@string/hint_password"
-                    android:inputType="textPassword"
-                    android:autofillHints="password"
-                    android:textColor="#000000"
-                    android:textColorHint="#757575"
-                    android:padding="12dp"
-                    android:backgroundTint="#000000"
-                    android:layout_marginBottom="16dp" />
+        <EditText
+            android:id="@+id/etEmailRegister"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
+        
+        <EditText
+            android:id="@+id/etContact"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Contact Number"
+            android:inputType="phone"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
 
-                <!-- Confirm Password -->
-                <EditText
-                    android:id="@+id/etConfirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="@string/hint_confirm_password"
-                    android:inputType="textPassword"
-                    android:autofillHints="password"
-                    android:textColor="#000000"
-                    android:textColorHint="#757575"
-                    android:padding="12dp"
-                    android:backgroundTint="#000000"
-                    android:layout_marginBottom="24dp" />
+        <EditText
+            android:id="@+id/etPasswordRegister"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="12dp" />
 
-                <!-- Create Account button -->
-                <Button
-                    android:id="@+id/btnCreateAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_create_account"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center"
-                    android:maxWidth="320dp"
-                    android:minWidth="200dp"
-                    android:layout_marginBottom="12dp" />
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:maxWidth="488dp"
+            android:layout_marginBottom="24dp" />
 
-                <!-- Back to Login button -->
-                <Button
-                    android:id="@+id/btnBackToLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_back_to_login"
-                    android:textAllCaps="false"
-                    android:layout_gravity="center"
-                    android:maxWidth="320dp"
-                    android:minWidth="200dp"
-                    android:layout_marginBottom="24dp" />
-            </LinearLayout>
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:maxWidth="320dp"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnBackToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Login"
+            android:maxWidth="320dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 </ScrollView>

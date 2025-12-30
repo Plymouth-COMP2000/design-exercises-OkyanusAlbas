@@ -1,56 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:padding="24dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".GuestHomeActivity">
+    tools:context=".guest.GuestHomeActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/guest_home_title"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="40dp" />
-
-        <Button
-            android:id="@+id/btnViewMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_view_menu"
-            android:maxWidth="320dp"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnMakeBooking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_make_booking"
-            android:maxWidth="320dp"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnMyReservations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_my_reservations"
-            android:maxWidth="320dp"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnNotificationPreferences"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notification_preferences_title"
-            android:maxWidth="320dp" />
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>
