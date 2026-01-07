@@ -1,6 +1,7 @@
 package com.example.restaurantapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,17 +21,21 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // IMPORTANT: Replace with your actual Student ID
     private static final String STUDENT_ID = "10927274"; 
-    private static final String API_BASE_URL = "http://10.240.72.69/comp2000/coursework/";
+    private static final String API_BASE_URL = "http://10.0.2.2:8080/";
 
     private EditText usernameEditText;
     private EditText passwordEditText;
     private RequestQueue requestQueue;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        checkSession();
+
         setContentView(R.layout.activity_login);
 
         usernameEditText = findViewById(R.id.etUsernameLogin);
@@ -44,6 +49,18 @@ public class LoginActivity extends AppCompatActivity {
         btnGoRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
 
+    private void checkSession() {
+        String userRole = sharedPreferences.getString("user_role", null);
+        if (userRole != null) {
+            if ("staff".equalsIgnoreCase(userRole)) {
+                startActivity(new Intent(this, StaffDashboardActivity.class));
+            } else {
+                startActivity(new Intent(this, GuestHomeActivity.class));
+            }
+            finish();
+        }
+    }
+
     private void loginUser() {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -53,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String url = API_BASE_URL + "read_user/" + STUDENT_ID + "/" + username;
+        String url = API_BASE_URL + "comp2000/coursework/read_user/" + STUDENT_ID + "/" + username;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -61,15 +78,10 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject user = response.getJSONObject("user");
                         String apiPassword = user.getString("password");
 
-                        // Manually check if the password matches
                         if (password.equals(apiPassword)) {
                             String role = user.getString("usertype");
-                            if ("staff".equalsIgnoreCase(role)) {
-                                startActivity(new Intent(LoginActivity.this, StaffDashboardActivity.class));
-                            } else {
-                                startActivity(new Intent(LoginActivity.this, GuestHomeActivity.class));
-                            }
-                            finish(); // Close the login activity
+                            saveSession(role);
+                            checkSession(); // Re-check to navigate
                         } else {
                             Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                         }
@@ -78,10 +90,16 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    // Handle network errors (like user not found)
-                    Toast.makeText(LoginActivity.this, "Login failed: User not found or network error", Toast.LENGTH_LONG).show();
+                     String errorMsg = (error.getMessage() == null) ? "User not found or network error" : error.toString();
+                    Toast.makeText(LoginActivity.this, "Login failed: " + errorMsg, Toast.LENGTH_LONG).show();
                 });
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void saveSession(String role) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_role", role);
+        editor.apply();
     }
 }

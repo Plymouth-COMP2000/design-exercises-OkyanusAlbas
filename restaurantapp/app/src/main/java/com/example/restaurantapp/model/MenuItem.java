@@ -14,12 +14,9 @@ public class MenuItem {
         this.imageResource = imageResource;
     }
 
+    // --- Getters ---
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -36,5 +33,22 @@ public class MenuItem {
 
     public int getImageResource() {
         return imageResource;
+    }
+
+    // --- Setters ---
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

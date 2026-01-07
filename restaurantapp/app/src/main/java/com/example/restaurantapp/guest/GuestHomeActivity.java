@@ -1,17 +1,16 @@
 package com.example.restaurantapp.guest;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.restaurantapp.LoginActivity;
 import com.example.restaurantapp.NotificationsFragment;
 import com.example.restaurantapp.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigationrail.NavigationRailView;
 
 public class GuestHomeActivity extends AppCompatActivity {
 
@@ -33,6 +32,9 @@ public class GuestHomeActivity extends AppCompatActivity {
                 selectedFragment = new MakeReservationFragment();
             } else if (itemId == R.id.navigation_notifications) {
                 selectedFragment = new NotificationsFragment();
+            } else if (itemId == R.id.nav_logout) {
+                logoutUser();
+                return true; // Don't select a fragment, just logout
             }
 
             if (selectedFragment != null) {
@@ -41,9 +43,22 @@ public class GuestHomeActivity extends AppCompatActivity {
             return true;
         });
 
-        // Set the default fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuFragment()).commit();
         }
+    }
+
+    private void logoutUser() {
+        // Clear user session
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+
+        // Navigate to LoginActivity
+        Intent intent = new Intent(GuestHomeActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

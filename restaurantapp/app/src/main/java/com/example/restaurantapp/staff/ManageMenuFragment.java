@@ -1,9 +1,6 @@
 package com.example.restaurantapp.staff;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantapp.R;
 import com.example.restaurantapp.adapter.MenuAdapter;
-import com.example.restaurantapp.database.DatabaseHelper;
+import com.example.restaurantapp.database.MenuRepository;
 import com.example.restaurantapp.model.MenuItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,54 +23,38 @@ import java.util.ArrayList;
 
 public class ManageMenuFragment extends Fragment implements MenuAdapter.OnMenuItemActionClickListener {
 
-    private DatabaseHelper dbHelper;
+    private MenuRepository menuRepository;
     private ArrayList<MenuItem> menuItems;
     private MenuAdapter adapter;
-    private RecyclerView staffMenuRecyclerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage_menu, container, false);
 
-        dbHelper = new DatabaseHelper(getContext());
-        menuItems = new ArrayList<>();
+        menuRepository = new MenuRepository(getContext());
 
-        staffMenuRecyclerView = view.findViewById(R.id.staffMenuRecyclerView);
+        RecyclerView staffMenuRecyclerView = view.findViewById(R.id.staffMenuRecyclerView);
         staffMenuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        loadMenuItemsFromDatabase();
+        menuItems = menuRepository.getAllMenuItems();
 
         adapter = new MenuAdapter(menuItems, true, this);
         staffMenuRecyclerView.setAdapter(adapter);
 
         FloatingActionButton fab = view.findViewById(R.id.fabAddMenuItem);
-        fab.setOnClickListener(v -> showAddMenuItemDialog(null));
+        fab.setOnClickListener(v -> showEditOrAddItemDialog(null));
 
         return view;
     }
 
-    private void loadMenuItemsFromDatabase() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(DatabaseHelper.TABLE_MENU_ITEMS, null, null, null, null, null, null);
-
+    private void refreshMenuList() {
         menuItems.clear();
-        if (cursor.moveToFirst()) {
-            do {
-                long id = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MENU_ID));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MENU_NAME));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MENU_DESCRIPTION));
-                String price = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MENU_PRICE));
-                int imageResId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MENU_IMAGE_RES_ID));
-                MenuItem item = new MenuItem(name, description, price, imageResId);
-                item.setId(id);
-                menuItems.add(item);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        menuItems.addAll(menuRepository.getAllMenuItems());
+        adapter.notifyDataSetChanged();
     }
 
-    private void showAddMenuItemDialog(final MenuItem menuItemToEdit) {
+    private void showEditOrAddItemDialog(final MenuItem menuItem) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_add_menu_item, null);
@@ -84,11 +65,11 @@ public class ManageMenuFragment extends Fragment implements MenuAdapter.OnMenuIt
 
         builder.setView(dialogView);
 
-        if (menuItemToEdit != null) {
+        if (menuItem != null) {
             builder.setTitle("Edit Menu Item");
-            nameEditText.setText(menuItemToEdit.getName());
-            descriptionEditText.setText(menuItemToEdit.getDescription());
-            priceEditText.setText(menuItemToEdit.getPrice());
+            nameEditText.setText(menuItem.getName());
+            descriptionEditText.setText(menuItem.getDescription());
+            priceEditText.setText(menuItem.getPrice());
         } else {
             builder.setTitle("Add New Menu Item");
         }
@@ -99,10 +80,13 @@ public class ManageMenuFragment extends Fragment implements MenuAdapter.OnMenuIt
             String price = priceEditText.getText().toString();
 
             if (!name.isEmpty() && !description.isEmpty() && !price.isEmpty()) {
-                if (menuItemToEdit != null) {
-                    updateMenuItemInDatabase(menuItemToEdit, name, description, price);
+                if (menuItem != null) {
+                    menuItem.setName(name);
+                    menuItem.setDescription(description);
+                    menuItem.setPrice(price);
+                    menuRepository.updateMenuItem(menuItem);
                 } else {
-                    addMenuItemToDatabase(name, description, price);
+                    menuRepository.addMenuItem(name, description, price);
                 }
                 refreshMenuList();
             }
@@ -113,45 +97,9 @@ public class ManageMenuFragment extends Fragment implements MenuAdapter.OnMenuIt
         dialog.show();
     }
 
-    private void addMenuItemToDatabase(String name, String description, String price) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.KEY_MENU_NAME, name);
-        values.put(DatabaseHelper.KEY_MENU_DESCRIPTION, description);
-        values.put(DatabaseHelper.KEY_MENU_PRICE, price);
-        values.put(DatabaseHelper.KEY_MENU_IMAGE_RES_ID, R.drawable.ic_launcher_background);
-        db.insert(DatabaseHelper.TABLE_MENU_ITEMS, null, values);
-    }
-
-    private void updateMenuItemInDatabase(MenuItem itemToUpdate, String newName, String newDescription, String newPrice) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.KEY_MENU_NAME, newName);
-        values.put(DatabaseHelper.KEY_MENU_DESCRIPTION, newDescription);
-        values.put(DatabaseHelper.KEY_MENU_PRICE, newPrice);
-
-        String selection = DatabaseHelper.KEY_MENU_ID + " = ?";
-        String[] selectionArgs = { String.valueOf(itemToUpdate.getId()) };
-
-        db.update(DatabaseHelper.TABLE_MENU_ITEMS, values, selection, selectionArgs);
-    }
-
-    private void deleteMenuItemFromDatabase(MenuItem itemToDelete) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String selection = DatabaseHelper.KEY_MENU_ID + " = ?";
-        String[] selectionArgs = { String.valueOf(itemToDelete.getId()) };
-        db.delete(DatabaseHelper.TABLE_MENU_ITEMS, selection, selectionArgs);
-        refreshMenuList();
-    }
-
-    public void refreshMenuList() {
-        loadMenuItemsFromDatabase();
-        adapter.notifyDataSetChanged();
-    }
-
     @Override
     public void onEditClick(MenuItem menuItem) {
-        showAddMenuItemDialog(menuItem);
+        showEditOrAddItemDialog(menuItem);
     }
 
     @Override
@@ -159,7 +107,10 @@ public class ManageMenuFragment extends Fragment implements MenuAdapter.OnMenuIt
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete Menu Item")
                 .setMessage("Are you sure you want to delete '" + menuItem.getName() + "'?")
-                .setPositiveButton("Delete", (dialog, which) -> deleteMenuItemFromDatabase(menuItem))
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    menuRepository.deleteMenuItem(menuItem);
+                    refreshMenuList();
+                })
                 .setNegativeButton("Cancel", null)
                 .show();
     }

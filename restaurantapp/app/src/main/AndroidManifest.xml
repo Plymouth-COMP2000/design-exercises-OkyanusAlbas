@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Restaurantapp">
 
-        <!-- The Main activity is now the Login screen -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -24,7 +25,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Declare other activities so the OS can launch them -->
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".guest.GuestHomeActivity" />

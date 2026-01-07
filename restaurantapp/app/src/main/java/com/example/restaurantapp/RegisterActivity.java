@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -19,9 +22,10 @@ import org.json.JSONObject;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String STUDENT_ID = "10927274"; 
-    private static final String API_BASE_URL = "http://10.240.72.69/comp2000/coursework/";
+    private static final String API_BASE_URL = "http://10.0.2.2:8080/";
 
     private EditText usernameEditText, firstNameEditText, lastNameEditText, emailEditText, contactEditText, passwordEditText, confirmPasswordEditText;
+    private Switch staffSwitch;
     private RequestQueue requestQueue;
 
     @Override
@@ -36,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         contactEditText = findViewById(R.id.etContact);
         passwordEditText = findViewById(R.id.etPasswordRegister);
         confirmPasswordEditText = findViewById(R.id.etConfirmPassword);
+        staffSwitch = findViewById(R.id.switchStaff);
         Button btnCreateAccount = findViewById(R.id.btnCreateAccount);
         Button btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
@@ -67,7 +72,9 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String url = API_BASE_URL + "create_user/" + STUDENT_ID;
+        String url = API_BASE_URL + "comp2000/coursework/create_user/" + STUDENT_ID;
+
+        String role = staffSwitch.isChecked() ? "staff" : "guest";
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -77,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
             requestBody.put("lastname", lastName);
             requestBody.put("email", email);
             requestBody.put("contact", contact);
-            requestBody.put("usertype", "guest"); // Hardcode usertype to guest for public registration
+            requestBody.put("usertype", role);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -89,7 +96,20 @@ public class RegisterActivity extends AppCompatActivity {
                     finish();
                 },
                 error -> {
-                    Toast.makeText(RegisterActivity.this, "Registration failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    String errorMessage = "Registration failed.";
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.data != null) {
+                        try {
+                            String responseBody = new String(response.data, "utf-8");
+                            JSONObject data = new JSONObject(responseBody);
+                            errorMessage += "\n" + data.getString("detail");
+                        } catch (Exception e) {
+                            errorMessage += "\nCould not parse error response.";
+                        }
+                    } else {
+                        errorMessage += "\nNo response from server.";
+                    }
+                    Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 });
 
         requestQueue.add(jsonObjectRequest);

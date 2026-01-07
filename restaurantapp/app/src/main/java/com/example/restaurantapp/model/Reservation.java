@@ -12,12 +12,9 @@ public class Reservation {
         this.numberOfGuests = numberOfGuests;
     }
 
+    // --- Getters ---
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDate() {
@@ -30,5 +27,22 @@ public class Reservation {
 
     public int getNumberOfGuests() {
         return numberOfGuests;
+    }
+
+    // --- Setters ---
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setNumberOfGuests(int numberOfGuests) {
+        this.numberOfGuests = numberOfGuests;
     }
 }
