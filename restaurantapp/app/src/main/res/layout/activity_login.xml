@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="24dp"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="@string/login_title"
             android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginTop="80dp"
@@ -26,7 +26,7 @@
             android:id="@+id/etUsernameLogin"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:hint="Username"
+            android:hint="@string/hint_username"
             android:inputType="text"
             android:autofillHints="username"
             android:maxWidth="488dp"
@@ -36,7 +36,7 @@
             android:id="@+id/etPasswordLogin"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:hint="Password"
+            android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:autofillHints="password"
             android:maxWidth="488dp"
@@ -46,7 +46,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login" 
+            android:text="@string/btn_login"
             android:maxWidth="320dp"
             android:layout_marginBottom="12dp"
             android:layout_gravity="center" />
@@ -55,7 +55,7 @@
             android:id="@+id/btnGoRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="@string/btn_go_register"
             android:maxWidth="320dp"
             android:layout_gravity="center" />
     </LinearLayout>
